@@ -1,4 +1,4 @@
-FROM httpd/latest
+FROM httpd:latest
 
 ADD http://apache.claz.org/perl/mod_perl-2.0.10.tar.gz mod_perl-2.0.10.tar.gz
 
