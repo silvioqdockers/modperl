@@ -15,17 +15,7 @@ RUN set -x \
     && cd .. \
     && rm -r mod_perl-2.0.10  \
     && apt-get purge -y --auto-remove make gcc libperl-dev \
-    && rm -rf /var/lib/apt/lists/*  \
-    && echo >  /usr/local/apache2/conf/extra/perl.conf <<EOF
-LoadModule perl_module modules/mod_perl.so
-<Directory /usr/local/apache2/htdocs>
-  <FilesMatch "\.(pl|pm)$">
-    SetHandler perl-script
-    PerlHandler ModPerl::Registry
-    Options +ExecCGI
-    PerlSendHeader On
-  </FilesMatch>
-</Directory>
-EOF
+    && rm -rf /var/lib/apt/lists/*
+    && echo  "Include /usr/local/apache2/conf/extra/perl.conf" >> /usr/local/apache2/conf/httpd.conf
 
-
+ADD perl.conf  /usr/local/apache2/conf/extra/perl.conf
