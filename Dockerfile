@@ -12,6 +12,7 @@ RUN set -x \
     && perl Makefile.PL MP_AP_PREFIX=/usr/local/apache2 \
     && make \ 
     && make install \
+    && cd .. \
     && rm -r mod_perl-2.0.10  \
     && apt-get purge -y --auto-remove make gcc libperl-dev \
     && rm -rf /var/lib/apt/lists/*
