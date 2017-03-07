@@ -5,7 +5,19 @@ RUN set -x \
     && apt-get install -y \
       apache2  \
       libapache2-mod-perl2  \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && echo > /etc/apache2/mod-available/perl.conf << EOF
+<Directory /var/www/html>
+  <FilesMatch "\.(pl|pm)$">
+    SetHandler perl-script
+    PerlHandler  ModPerl::Registry
+    Options +ExecCGI
+    PerlSendHeader On
+  </FilesMatch>
+</Directory>
+EOF \
+    && a2enmod perl
+
 
 
 EXPOSE 80
