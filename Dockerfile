@@ -15,7 +15,7 @@ RUN set -x \
     && cd .. \
     && rm -r mod_perl-2.0.10  \
     && apt-get purge -y --auto-remove make gcc libperl-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*  \
     && echo  "Include /usr/local/apache2/conf/extra/perl.conf" >> /usr/local/apache2/conf/httpd.conf
 
 ADD perl.conf  /usr/local/apache2/conf/extra/perl.conf
