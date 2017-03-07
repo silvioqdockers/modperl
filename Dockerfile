@@ -6,7 +6,7 @@ RUN set -x \
       apache2  \
       libapache2-mod-perl2  \
     && rm -rf /var/lib/apt/lists/* \
-    && echo > /etc/apache2/mod-available/perl.conf << EOF
+    && echo > /etc/apache2/mods-available/perl.conf << EOF
 <Directory /var/www/html>
   <FilesMatch "\.(pl|pm)$">
     SetHandler perl-script
