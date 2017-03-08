@@ -4,7 +4,9 @@ set -e
 # CPAN modules
 if [ -f /cpan.d/cpan.txt ]; then
   for module in `cat /cpan.d/cpan.txt`; do
-     PERL_MM_USE_DEFAULT=1 cpan i $module
+     echo
+     echo "Intentando instalar $module"
+     PERL_MM_USE_DEFAULT=1 cpan -i $module
   done
 fi
 
