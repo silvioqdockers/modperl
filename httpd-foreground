@@ -3,11 +3,21 @@ set -e
 
 # CPAN modules
 if [ -f /cpan.d/cpan.txt ]; then
+  if [ -f /cpan.d/debian-packages.txt ] ; then
+     apt-get update
+     apt-get install -y make gcc libperl-dev `cat /cpan.d/debian-packages.txt`
+  fi
+
   for module in `cat /cpan.d/cpan.txt`; do
      echo
      echo "Intentando instalar $module"
      PERL_MM_USE_DEFAULT=1 cpan -i $module
   done
+
+  if [ -f /cpan.d/debian-packages.txt ] ; then
+     apt-get purge -y --auto-remove make gcc libperl-dev
+     rm -rf /var/lib/apt/lists/*
+  fi
 fi
 
 # Apache gets grumpy about PID files pre-existing
