@@ -4,15 +4,26 @@ set -e
 # CPAN modules
 if [ -f /cpan.d/cpan.txt ]; then
   if [ -f /cpan.d/debian-packages.txt ] ; then
-     apt-get update
-     apt-get install -y make gcc libperl-dev `cat /cpan.d/debian-packages.txt`
+     apt-get update && \
+     apt-get install -y \
+            make gcc libperl-dev \
+            `cat /cpan.d/debian-packages.txt`
+
+     if [ "$?" -ne "0" ]; then
+       exit 1
+     fi
   fi
 
   for module in `cat /cpan.d/cpan.txt`; do
      echo
      echo "Intentando instalar $module"
      PERL_MM_USE_DEFAULT=1 cpan -i $module
+     if [ "$?" -ne "0" ]; then
+       exit 1
+     fi
   done
+
+  rm -fr /root/.cpan/build /root/.cpan/sources
 
   if [ -f /cpan.d/debian-packages.txt ] ; then
      apt-get purge -y --auto-remove make gcc libperl-dev
