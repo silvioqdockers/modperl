@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+# CPAN modules
+if [ -f /cpan.d/cpan.txt ]; then
+  for module in `cat /cpan.d/cpan.txt`; do
+     PERL_MM_USE_DEFAULT=1 cpan i $module
+  done
+fi
+
+# Apache gets grumpy about PID files pre-existing
+rm -f /usr/local/apache2/logs/httpd.pid
+
+exec httpd -DFOREGROUND
+
