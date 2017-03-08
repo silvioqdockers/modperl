@@ -10,13 +10,15 @@ RUN set -x \
         gcc \
     && ln -s /usr/lib/x86_64-linux-gnu/libgdbm.so.3.0.0 /usr/lib/libgdbm.so \
     && curl -SL http://apache.claz.org/perl/mod_perl-2.0.10.tar.gz \
-        | tar -zxCv mod_perl-2.0.10 \
+        | tar -zxv \
     && cd mod_perl-2.0.10 \
     && perl Makefile.PL MP_AP_PREFIX=/usr/local/apache2 \
     && make \ 
     && make install \
     && cd .. \
     && rm -r mod_perl-2.0.10  \
+    && cpan -i CPAN CGI\
+    && rm -fr /root/.cpan/build /root/.cpan/sources \
     && apt-get purge -y --auto-remove make gcc libperl-dev \
     && rm -rf /var/lib/apt/lists/*
 
