@@ -4,13 +4,16 @@ set -e
 # CPAN modules
 if [ -f /cpan.d/cpan.txt ]; then
   if [ -f /cpan.d/debian-packages.txt ] ; then
-     apt-get update && \
-     apt-get install -y \
-            make gcc libperl-dev \
-            `cat /cpan.d/debian-packages.txt`
+     if [ ! -f /var/tmp/debian-packages-downloaded ]; then
+         apt-get update && \
+         apt-get install -y \
+                make gcc libperl-dev \
+                `cat /cpan.d/debian-packages.txt`
 
-     if [ "$?" -ne "0" ]; then
-       exit 1
+         if [ "$?" -ne "0" ]; then
+           exit 1
+         fi
+         PURGAR=si
      fi
   fi
 
@@ -25,9 +28,11 @@ if [ -f /cpan.d/cpan.txt ]; then
 
   rm -fr /root/.cpan/build /root/.cpan/sources
 
-  if [ -f /cpan.d/debian-packages.txt ] ; then
-     apt-get purge -y --auto-remove make gcc libperl-dev
-     rm -rf /var/lib/apt/lists/*
+  if [ "$PURGAR" == "si" ]; then
+      if [ -f /cpan.d/debian-packages.txt ] ; then
+         apt-get purge -y --auto-remove make gcc libperl-dev
+         rm -rf /var/lib/apt/lists/*
+      fi
   fi
 fi
 
