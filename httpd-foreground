@@ -14,6 +14,7 @@ if [ -f /cpan.d/cpan.txt ]; then
            exit 1
          fi
          PURGAR=si
+         touch /var/tmp/debian-packages-downloaded
      fi
   fi
 
