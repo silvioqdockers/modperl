@@ -37,6 +37,10 @@ if [ -f /cpan.d/cpan.txt ]; then
   fi
 fi
 
+if [ "$ONLYPRELOAD" = yes ]; then
+   exit
+fi
+
 # Apache gets grumpy about PID files pre-existing
 rm -f /usr/local/apache2/logs/httpd.pid
 
